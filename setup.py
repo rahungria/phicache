@@ -15,7 +15,7 @@ setuptools.setup(
     version=phicache.__version__,
     author="raphi",
     author_email="rhja93@gmail.com",
-    description="simple ORM for personal usage",
+    description="A cache to store data with metadata and strategies to tailor access",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url=GITHUB_URL,

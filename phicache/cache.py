@@ -6,7 +6,7 @@ __all__ = 'Cache',
 
 
 class Cache:
-    def __init__(self, data_type):
+    def __init__(self, data_type: type=None):
         self.data_type = data_type
         self.cache = dict()
 
@@ -75,10 +75,11 @@ class Cache:
             )
 
     def __setitem__(self, key, value):
-        if not issubclass(type(value), self.data_type):
-            raise ValueError(
-                f'cache type must match declared data_type: {self.data_type}'
-            )
+        if self.data_type:
+            if not issubclass(type(value), self.data_type):
+                raise ValueError(
+                    f'cache type must match declared data_type: {self.data_type}'
+                )
         if key not in self.cache:
             # TODO maybe replace list for priority queue for each strategy:
             # reduce access time from O(n) to O(1) (but space complexity

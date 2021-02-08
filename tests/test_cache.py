@@ -59,3 +59,14 @@ def test_cache_contains():
     cache[1] = 2
     assert 1 in cache
     assert 2 not in cache
+
+
+def test_cache_non_type_enforcing():
+    cache = phicache.Cache()
+    cache[1] = 1
+    cache['lorem'] = 'ipsum'
+    cache['lorem'] = 'dolor'
+
+    assert cache['lorem', phicache.Strategy.OLDEST] == 'ipsum'
+    assert cache['lorem', phicache.Strategy.LEAST_ACCESSED] == 'dolor'
+    assert cache[1] == 1
