@@ -5,4 +5,4 @@ from .strategy import *
 
 __all__ = 'Cache', 'Strategy'
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'

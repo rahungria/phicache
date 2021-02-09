@@ -6,8 +6,10 @@ __all__ = 'Cache',
 
 
 class Cache:
-    def __init__(self, data_type: type=None):
+    def __init__(self, data_type: type=None, default_strategy=Strategy.MOST_RECENT_ACCESS):
+        # TODO allow forward declaring type to lazily enforce type
         self.data_type = data_type
+        self.default_strategy = default_strategy
         self.cache = dict()
 
     def __len__(self):
@@ -18,12 +20,10 @@ class Cache:
         to get a cached item
         '''
         if type(key) is tuple:
-            assert len(key) == 2
             k, strategy = key
         else:
-            # default strategy
             k = key
-            strategy = Strategy.MOST_RECENT_ACCESS
+            strategy = self.default_strategy
 
         cache_items: list[CacheItem] = self.cache[k]
 

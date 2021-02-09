@@ -1,3 +1,4 @@
+from phicache.strategy import Strategy
 import phicache
 import pytest
 
@@ -70,3 +71,25 @@ def test_cache_non_type_enforcing():
     assert cache['lorem', phicache.Strategy.OLDEST] == 'ipsum'
     assert cache['lorem', phicache.Strategy.LEAST_ACCESSED] == 'dolor'
     assert cache[1] == 1
+
+
+def test_cache_default_strategy():
+    cache = phicache.Cache(default_strategy=Strategy.LEAST_ACCESSED)
+    cache[1] = 1
+    cache[1] = 2
+    assert cache[1] == 1
+    assert cache[1] == 2
+    assert cache[1] == 1
+    assert cache[1] == 2
+    assert cache[1, Strategy.OLDEST] == 1
+    cache[1] = 3
+    assert cache[1, Strategy.LATEST] == 3
+
+
+def test_cache_unspecified_defaut_strategy(cache):
+    cache[1] = DATA1
+    cache[1] = DATA2
+    assert cache[1] == DATA2
+    assert cache[1] == DATA2
+    assert cache[1, Strategy.MOST_ACCESSED] == DATA2
+    assert cache[1, Strategy.OLDEST_ACCESS] == cache[1, Strategy.OLDEST] == DATA1
